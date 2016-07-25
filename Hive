@@ -1,0 +1,30 @@
+--problem statemeent(pstmt) is find the top3 URL's visited by user whose age<=16 having users table and clickstream table
+--creat users table
+
+create table users(id int, name string, age int, country string, gender string)
+row format delimited
+fields terminated by  ','
+lines terminated by '\n'
+stored as textfile;
+
+--load data into users table
+
+load data local inpath '/home/madhu/Desktop/user' overwrite into table user;
+
+--create clickstream data
+
+create table clickstream (id int , url string)
+row format delimited
+fields terminated by ','
+lines terminated by '\n'
+tored as textfile;
+
+--load data into users table
+
+load data local inpath '/home/madhu/Desktop/clickstream' overwrite into table clickstream;
+
+  --HiveQL query to get the top 3 URLs visited by user whose age is less than 16
+  
+  SELECT url,count(url) c FROM users u JOIN clickstream c ON (u.user_id=c.userid) where u.age<16 group by url order by c.url DESC LIMIT 3;
+
+
